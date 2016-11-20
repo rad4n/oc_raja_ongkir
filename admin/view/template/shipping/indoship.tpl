@@ -25,6 +25,25 @@
       </div>
       <div class="panel-body">
         <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-indoship" class="form-horizontal">
+            <div class="form-group">
+            <label class="col-sm-2 control-label" for="key_api_input_field"><?php echo $entry_key_api; ?></label>
+            <div class="col-sm-10">
+              <input type="text" name="indoship_key_api" value="<?php echo $indoship_key_api;?>" class="form-control">
+              <?php if ($error_indoship_key_api) { ?>
+              <div class="text-danger"><?php echo $error_indoship_key_api; ?></div>
+              <?php } ?>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="base_url_api_input_field"><?php echo $entry_type_api; ?></label>
+            <div class="col-sm-10">
+              <select name="indoship_type_api" class="form-control">
+                <option value="1" <?php echo ($indoship_type_api)==1?"selected='selected'":"";?>>Starter</option>
+                <option value="2" <?php echo ($indoship_type_api)==2?"selected='selected'":"";?>>Basic</option>
+                <option value="3" <?php echo ($indoship_type_api)==3?"selected='selected'":"";?>>Pro</option>
+              </select>
+            </div>
+          </div>
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input_origin"><?php echo $entry_indo_origin; ?></label>
             <div class="col-sm-10">

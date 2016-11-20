@@ -58,8 +58,6 @@ class ModelShippingIndoShip extends Model {
 				}
 			}
 
-		   
-
 			//Menampilkan asal dan tujuan kiriman
 			$display_origin_destination = $this->config->get('indoship_destinasi');
 			//$display_origin_destination = ((int)$display_origin_destination == 1 || $display_origin_destination == 'y' ? true : false);
@@ -79,7 +77,6 @@ class ModelShippingIndoShip extends Model {
 				}
 			}
 			$courier = $this->config->get('indoship_services');
-			//print_r($courier); exit();
 			if($courier=='all'){
 				$courier = array('jne','tiki','pos');
 				foreach ($courier as $key) {
@@ -90,12 +87,7 @@ class ModelShippingIndoShip extends Model {
 
 			if(is_array($hitungongkos)){
 				foreach ($hitungongkos as $key => $value) {
-					//$r = json_decode($value,true);
-					//if($key>0)$ongkir = array_merge($ongkir,$r);
-					//else 
 					$ongkir = json_decode($value,true);
-					//if($key==1){print_r($ongkir);exit();}
-
 					$hitungOngkir[] = $ongkir['rajaongkir']['results'];
 				}
 			}
@@ -103,11 +95,10 @@ class ModelShippingIndoShip extends Model {
 				$ongkir = json_decode($hitungongkos,true);
 				$hitungOngkir = $ongkir['rajaongkir']['results'];
 			}
-			//print_r($hitungOngkir);exit();
 			
 			if (!empty($hitungOngkir)) {
-				if(is_array($hitungOngkir)){
-					foreach ($hitungOngkir as $key => $service) {//print_r($service[0]);exit();
+				if(is_array($hitungongkos)){
+					foreach ($hitungOngkir as $key => $service) {
 						if ($service[0]['code']=='pos') {
 							$kurir = $service[0]['name'];
 							//print_r($kurir);

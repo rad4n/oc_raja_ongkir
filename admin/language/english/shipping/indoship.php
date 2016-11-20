@@ -20,6 +20,8 @@ $_['entry_service'] = 'Kurir';
 $_['entry_mode_berat'] = 'Handling Fee';
 $_['entry_tampilan_destinasi'] = 'Show destination';
 $_['entry_origin'] = 'Masukan nama kota asal';
+$_['entry_key_api']    = 'Raja Ongkir Key API:';
+$_['entry_type_api']   = 'Type of API';
 
 //help
 $_['help_tampilan_destinasi'] = 'Menampilkan destinasi kurir: <b>Semarang ke Tegal<b/>';
@@ -33,3 +35,4 @@ $_['text_pos'] = 'POS Indonesia';
 
 // Error
 $_['error_permission'] = 'Warning: You do not have permission to modify indonesian shipping!';
+$_['error_indoship_key_api']          = 'Raja Ongkir Key Required';

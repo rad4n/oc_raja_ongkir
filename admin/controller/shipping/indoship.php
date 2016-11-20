@@ -34,6 +34,8 @@ class ControllerShippingIndoship extends Controller {
 		$data['text_pilih_kota'] = $this->language->get('text_pilih_kota');
 		$data['text_service'] = $this->language->get('text_service');
 
+		$data['entry_type_api'] = $this->language->get('entry_type_api');
+    	$data['entry_key_api'] = $this->language->get('entry_key_api');
 		$data['entry_indo_origin'] = $this->language->get('entry_indo_origin');
 		$data['entry_tax_class'] = $this->language->get('entry_tax_class');
 		$data['entry_geo_zone'] = $this->language->get('entry_geo_zone');
@@ -52,6 +54,8 @@ class ControllerShippingIndoship extends Controller {
 		$data['text_tiki'] = $this->language->get('text_tiki');
 		$data['text_pos'] = $this->language->get('text_pos');
 
+		
+
 		$data['button_save'] = $this->language->get('button_save');
 		$data['button_cancel'] = $this->language->get('button_cancel');
 
@@ -65,6 +69,12 @@ class ControllerShippingIndoship extends Controller {
 		} else {
 			$data['error_warning'] = '';
 		}
+
+		if (isset($this->error['error_indoship_key_api'])) {
+        $data['error_indoship_key_api'] = $this->error['error_indoship_key_api'];
+	    } else {
+	        $data['error_indoship_key_api'] = '';
+	    } 
 
 		$data['breadcrumbs'] = array();
 
@@ -93,6 +103,18 @@ class ControllerShippingIndoship extends Controller {
 		$cities = json_decode($city,true);
 		$data['origins'] = $cities['rajaongkir']['results'];
 		$data['origin'] = $this->config->get('indoship_origins');
+
+		if (isset($this->request->post['indoship_key_api'])) {
+        $data['indoship_key_api'] = $this->request->post['indoship_key_api'];
+	    } else {
+	        $data['indoship_key_api'] = $this->config->get('indoship_key_api');
+	    }  
+
+	    if (isset($this->request->post['indoship_type_api'])) {
+	        $data['indoship_type_api'] = $this->request->post['indoship_type_api'];
+	    } else {
+	        $data['indoship_type_api'] = $this->config->get('indoship_type_api');
+	    }
 
 		if (isset($this->request->post['indoship_origins'])) {
 			$data['indoship_origins'] = $this->request->post['indoship_origins'];
@@ -245,6 +267,10 @@ class ControllerShippingIndoship extends Controller {
 		if (!$this->user->hasPermission('modify', 'shipping/indoship')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
+
+		if (!$this->request->post['indoship_key_api']) {
+            $this->error['error_indoship_key_api'] = $this->language->get('error_indoship_key_api');
+    	}
 
 		return !$this->error;
 	}

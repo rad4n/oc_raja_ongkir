@@ -7,16 +7,30 @@ class rajaOngkir{
 	private $key;
 	public function __construct()
 	{
+		global $loader, $registry;
+    	$loader->model('setting/setting');
+    	$model = $registry->get('model_setting_setting');
+		$setting = $model->getSetting('indoship'); 
 		//masukan api key disini
-		$this->key = '8e9126c5160d56f776548eb6f006d872';	
-		$this->type = '';	
+		$this->key = $setting['indoship_key_api'];	
+		switch ($setting['indoship_type_api']) {
+			case '1':
+				$this->type = 'http://rajaongkir.com/api/starter/';
+				break;
+			case '2':
+				$this->type = 'http://rajaongkir.com/api/basic/';
+				break;
+			default:
+				$this->type = 'http://pro.rajaongkir.com/api/';
+				break;
+		}
 	}
 	//menampilkan data provinsi
 	public function showProvince()
 	{
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-			CURLOPT_URL => "http://rajaongkir.com/api/starter/province",
+			CURLOPT_URL => $this->type."province",
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_ENCODING => "",
 			CURLOPT_MAXREDIRS => 10,
@@ -42,7 +56,7 @@ class rajaOngkir{
 	{
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-			CURLOPT_URL => "http://rajaongkir.com/api/starter/city?province=",
+			CURLOPT_URL => $this->type."city?province=",
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_ENCODING => "",
 			CURLOPT_MAXREDIRS => 10,
@@ -68,7 +82,7 @@ class rajaOngkir{
 		$curl = curl_init();
 
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => "http://rajaongkir.com/api/starter/city",
+		  CURLOPT_URL => $this->type."city",
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => "",
 		  CURLOPT_MAXREDIRS => 10,
@@ -102,7 +116,7 @@ class rajaOngkir{
 		// 	$courier = array('jne','tiki','pos');
 		// 	foreach ($courier as $key) {
 		// 		curl_setopt_array($curl, array(
-		// 		CURLOPT_URL => "http://rajaongkir.com/api/starter/cost",
+		// 		CURLOPT_URL => $this->type."cost",
 		// 		CURLOPT_RETURNTRANSFER => true,
 		// 		CURLOPT_ENCODING => "",
 		// 		CURLOPT_MAXREDIRS => 10,
@@ -120,7 +134,7 @@ class rajaOngkir{
 		// }
 		// else {
 		    curl_setopt_array($curl, array(
-			CURLOPT_URL => "http://rajaongkir.com/api/starter/cost",
+			CURLOPT_URL => $this->type."cost",
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_ENCODING => "",
 			CURLOPT_MAXREDIRS => 10,
