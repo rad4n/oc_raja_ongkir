@@ -160,7 +160,7 @@ class rajaOngkir{
 		}
 	}
 
-	public internationalOrigin(){
+	public function internationalOrigin(){
 		$curl = curl_init();
 
 		curl_setopt_array($curl, array(
@@ -188,7 +188,7 @@ class rajaOngkir{
 		}
 	}
 
-	public internationalDestination(){
+	public function internationalDestination(){
 		$curl = curl_init();
 
 		curl_setopt_array($curl, array(
@@ -216,7 +216,7 @@ class rajaOngkir{
 		}
 	}
 
-	public internationalCost(){
+	public function internationalCost(){
 		$curl = curl_init();
 
 		curl_setopt_array($curl, array(
@@ -246,7 +246,7 @@ class rajaOngkir{
 		}
 	}
 
-	public currency(){
+	public function currency(){
 		$curl = curl_init();
 
 		curl_setopt_array($curl, array(
@@ -274,7 +274,7 @@ class rajaOngkir{
 		}
 	}
 
-	public wayBill(){
+	public function wayBill(){
 		$curl = curl_init();
 
 		curl_setopt_array($curl, array(
