@@ -1,5 +1,11 @@
 <?php
 class ControllerCheckoutGuestShipping extends Controller {
+	public function __construct($registry) {
+        parent::__construct($registry);
+        $this->load->library('rajaongkir');
+        //$this->indoship = new rajaOngkir();
+    }
+    
 	public function index() {
 		$this->load->language('checkout/checkout');
 
@@ -56,16 +62,35 @@ class ControllerCheckoutGuestShipping extends Controller {
 			$data['postcode'] = '';
 		}
 
-		if (isset($this->session->data['shipping_address']['city'])) {
+
+		$rajaongkir = new rajaOngkir();
+		$city = $rajaongkir->allCity();
+		//convert json to array
+		$cities = json_decode($city,true);
+		$data['destinasi'] = $cities['rajaongkir']['results'];
+
+		/*if (isset($this->session->data['shipping_address']['city'])) {
 			$data['city'] = $this->session->data['shipping_address']['city'];
 		} else {
 			$data['city'] = '';
+		}*/
+
+		if (isset($this->session->data['shipping_address']['city'])) {
+			$data['city'] = $this->session->data['shipping_address']['city'];
+		} else {
+			$data['city'] = $this->config->get('config_city');
 		}
 
 		if (isset($this->session->data['shipping_address']['country_id'])) {
 			$data['country_id'] = $this->session->data['shipping_address']['country_id'];
 		} else {
 			$data['country_id'] = $this->config->get('config_country_id');
+		}
+
+		if (isset($this->session->data['shipping_address']['city_id'])) {
+			$data['city_id'] = $this->session->data['shipping_address']['city_id'];
+		} else {
+			$data['city_id'] = $this->config->get('config_city_id');
 		}
 
 		if (isset($this->session->data['shipping_address']['zone_id'])) {
@@ -129,9 +154,9 @@ class ControllerCheckoutGuestShipping extends Controller {
 				$json['error']['address_1'] = $this->language->get('error_address_1');
 			}
 
-			if ((utf8_strlen(trim($this->request->post['city'])) < 2) || (utf8_strlen(trim($this->request->post['city'])) > 128)) {
+			/*if ((utf8_strlen(trim($this->request->post['city'])) < 2) || (utf8_strlen(trim($this->request->post['city'])) > 128)) {
 				$json['error']['city'] = $this->language->get('error_city');
-			}
+			}*/
 
 			$this->load->model('localisation/country');
 
@@ -139,6 +164,10 @@ class ControllerCheckoutGuestShipping extends Controller {
 
 			if ($country_info && $country_info['postcode_required'] && (utf8_strlen(trim($this->request->post['postcode'])) < 2 || utf8_strlen(trim($this->request->post['postcode'])) > 10)) {
 				$json['error']['postcode'] = $this->language->get('error_postcode');
+			}
+
+			if ($this->request->post['city'] == '') {
+				$json['error']['city'] = $this->language->get('error_city');
 			}
 
 			if ($this->request->post['country_id'] == '') {

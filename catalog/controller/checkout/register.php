@@ -1,5 +1,11 @@
 <?php
 class ControllerCheckoutRegister extends Controller {
+	public function __construct($registry) {
+        parent::__construct($registry);
+        $this->load->library('rajaongkir');
+        //$this->indoship = new rajaOngkir();
+    }
+
 	public function index() {
 		$this->load->language('checkout/checkout');
 
@@ -52,6 +58,18 @@ class ControllerCheckoutRegister extends Controller {
 			$data['postcode'] = $this->session->data['shipping_address']['postcode'];
 		} else {
 			$data['postcode'] = '';
+		}
+
+		$rajaongkir = new rajaOngkir();
+		$city = $rajaongkir->allCity();
+		//convert json to array
+		$cities = json_decode($city,true);
+		$data['destinasi'] = $cities['rajaongkir']['results'];
+
+		if (isset($this->session->data['shipping_address']['city'])) {
+			$data['city'] = $this->session->data['shipping_address']['city'];
+		} else {
+			$data['city'] = $this->config->get('config_city');
 		}
 
 		if (isset($this->session->data['shipping_address']['country_id'])) {
@@ -159,9 +177,9 @@ class ControllerCheckoutRegister extends Controller {
 				$json['error']['address_1'] = $this->language->get('error_address_1');
 			}
 
-			if ((utf8_strlen(trim($this->request->post['city'])) < 2) || (utf8_strlen(trim($this->request->post['city'])) > 128)) {
+			/*if ((utf8_strlen(trim($this->request->post['city'])) < 2) || (utf8_strlen(trim($this->request->post['city'])) > 128)) {
 				$json['error']['city'] = $this->language->get('error_city');
-			}
+			}*/
 
 			$this->load->model('localisation/country');
 
@@ -173,6 +191,10 @@ class ControllerCheckoutRegister extends Controller {
 
 			if ($this->request->post['country_id'] == '') {
 				$json['error']['country'] = $this->language->get('error_country');
+			}
+
+			if ($this->request->post['city'] == '') {
+				$json['error']['city'] = $this->language->get('error_city');
 			}
 
 			if (!isset($this->request->post['zone_id']) || $this->request->post['zone_id'] == '') {

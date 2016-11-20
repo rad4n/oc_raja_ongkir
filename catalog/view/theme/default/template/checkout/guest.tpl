@@ -168,7 +168,23 @@
       </div>
       <div class="form-group required">
         <label class="control-label" for="input-payment-city"><?php echo $entry_city; ?></label>
-        <input type="text" name="city" value="<?php echo $city; ?>" placeholder="<?php echo $entry_city; ?>" id="input-payment-city" class="form-control" />
+        <select name="city" id="input-payment-city" class="form-control">
+            <?php foreach ($destinasi as $asal) { ?>
+            <?php if ($asal['city_id'] == $city) { ?>
+              <?php if ($asal['type'] == 'Kabupaten') { ?>
+                <option value="<?php print_r($asal['city_name']); ?>" selected="selected"><?php print_r($asal['city_name']); ?><?php echo " (Kab)";?></option>
+              <?php } else { ?>
+                <option value="<?php print_r($asal['city_name']); ?>" selected="selected"><?php print_r($asal['city_name']); ?></option>
+              <?php }?>
+            <?php } else { ?>
+              <?php if ($asal['type'] == 'Kabupaten') { ?>
+                <option value="<?php print_r($asal['city_name']); ?>"><?php print_r($asal['city_name']); ?><?php echo " (Kab)";?></option>
+              <?php } else {?>
+                <option value="<?php print_r($asal['city_name']); ?>"><?php print_r($asal['city_name']); ?></option>
+              <?php }?>
+            <?php } ?>
+            <?php } ?>
+        </select>
       </div>
       <div class="form-group required">
         <label class="control-label" for="input-payment-postcode"><?php echo $entry_postcode; ?></label>

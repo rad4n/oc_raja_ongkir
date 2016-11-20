@@ -1,5 +1,11 @@
 <?php
 class ControllerCheckoutPaymentAddress extends Controller {
+	public function __construct($registry) {
+        parent::__construct($registry);
+        $this->load->library('rajaongkir');
+        //$this->indoship = new rajaOngkir();
+    }
+
 	public function index() {
 		$this->load->language('checkout/checkout');
 
@@ -31,6 +37,24 @@ class ControllerCheckoutPaymentAddress extends Controller {
 		$this->load->model('account/address');
 
 		$data['addresses'] = $this->model_account_address->getAddresses();
+
+		$rajaongkir = new rajaOngkir();
+		$city = $rajaongkir->allCity();
+		//convert json to array
+		$cities = json_decode($city,true);
+		$data['destinasi'] = $cities['rajaongkir']['results'];
+
+		if (isset($this->session->data['payment_address']['indoship_origins_name'])) {
+			$data['indoship_origins_name'] = $this->session->data['payment_address']['indoship_origins_name'];
+		} else {
+			$data['indoship_origins_name'] = $this->config->get('config_indoship_origins_name');
+		}
+		
+		if (isset($this->session->data['payment_address']['city'])) {
+			$data['city'] = $this->session->data['payment_address']['city'];
+		} else {
+			$data['city'] = $this->config->get('config_city');
+		}
 
 		if (isset($this->session->data['payment_address']['country_id'])) {
 			$data['country_id'] = $this->session->data['payment_address']['country_id'];
@@ -132,9 +156,9 @@ class ControllerCheckoutPaymentAddress extends Controller {
 					$json['error']['address_1'] = $this->language->get('error_address_1');
 				}
 
-				if ((utf8_strlen($this->request->post['city']) < 2) || (utf8_strlen($this->request->post['city']) > 32)) {
+				/*if ((utf8_strlen($this->request->post['city']) < 2) || (utf8_strlen($this->request->post['city']) > 32)) {
 					$json['error']['city'] = $this->language->get('error_city');
-				}
+				}*/
 
 				$this->load->model('localisation/country');
 
@@ -142,6 +166,10 @@ class ControllerCheckoutPaymentAddress extends Controller {
 
 				if ($country_info && $country_info['postcode_required'] && (utf8_strlen(trim($this->request->post['postcode'])) < 2 || utf8_strlen(trim($this->request->post['postcode'])) > 10)) {
 					$json['error']['postcode'] = $this->language->get('error_postcode');
+				}
+
+				if ($this->request->post['city'] == '') {
+					$json['error']['city'] = $this->language->get('error_city');
 				}
 
 				if ($this->request->post['country_id'] == '') {

@@ -1,5 +1,11 @@
 <?php
 class ControllerCheckoutPaymentMethod extends Controller {
+	public function __construct($registry) {
+        parent::__construct($registry);
+        $this->load->library('rajaongkir');
+        //$this->indoship = new rajaOngkir();
+    }
+    
 	public function index() {
 		$this->load->language('checkout/checkout');
 
