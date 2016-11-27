@@ -186,6 +186,11 @@ class ControllerCheckoutShippingAddress extends Controller {
 					$json['error']['city'] = $this->language->get('error_city');
 				}
 
+				if ($this->request->post['kecamatan'] == '') {
+					$json['error']['kecamatan'] = $this->language->get('error_kecamatan');
+				}
+
+
 				if ($this->request->post['country_id'] == '') {
 					$json['error']['country'] = $this->language->get('error_country');
 				}

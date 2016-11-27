@@ -38,23 +38,29 @@ class ModelShippingIndoShip extends Model {
 			}
 
 			$weightText = ($weight >= 1 ? $weight : 1);*/
-			$beratBarang = $cart_weight * 1000;
+			$beratBarang = $cart_weight * 1;
 			if ($beratBarang=='0'||$beratBarang==''||$beratBarang==NULL) {
-				$beratBarang = '1000';
+				$beratBarang = '1';
 			}
 			
+			$type_account = $this->config->get('indoship_type_api');
+			if($type_account==3)$destination_type = 'subdistrict';
+			else $destination_type = 'city';
+
 			//Show Destinasi/Originasi
 			$addres = $rajaongkir->allcity();
 			$addrss = json_decode($addres,true);
 			$add = $addrss['rajaongkir']['results'];
-			//print_r($address['city']);
+			
 			foreach ($add as $key) {
 				if ($key['city_name'] == $address['city']){
-					$desti = $address['city'];
+					if($type_account==3) $desti = $address['kecamatan'];
+					else $desti = $address['city'];
 				}else if ($key['city_id'] == $this->config->get('indoship_origins')) {
 					$origi = $key['city_name'];
 				}else if($key['city_id'] == $address['city']){
-					$desti = $key['city_name'];
+					if($type_account==3) $desti = $address['kecamatan'];
+					else $desti = $key['city_name'];
 				}
 			}
 
@@ -69,21 +75,26 @@ class ModelShippingIndoShip extends Model {
 
 			//Menghitung tarif ongkir dengan parameter origin,destinasi,courier,dan weight
 			$origin = $this->config->get('indoship_origins');
+			
+
 			foreach ($add as $key) {
-				if ($this->session->data['shipping_address']['city'] == $key['city_id']) {
-					$destinasi = $this->session->data['shipping_address']['city'];
-				}else{
-					$destinasi = $key['city_id'];
-				}
+					if ($this->session->data['shipping_address']['city'] == $key['city_id']) {
+						$destinasi = $this->session->data['shipping_address']['city'];
+					}else{
+						$destinasi = $key['city_id'];
+					}
 			}
+
+
 			$courier = $this->config->get('indoship_services');
 			if($courier=='all'){
 				$courier = array('jne','tiki','pos');
+
 				foreach ($courier as $key) {
-					$hitungongkos[] = $rajaongkir->hitungOngkir($origin,$destinasi,$beratBarang,$key);
+					$hitungongkos[] = $rajaongkir->hitungOngkir($origin,$destinasi,$beratBarang,$key,'city',$destination_type);
 				}
 			}
-			else $hitungongkos = $rajaongkir->hitungOngkir($origin,$destinasi,$beratBarang,$courier);
+			else $hitungongkos = $rajaongkir->hitungOngkir($origin,$destinasi,$beratBarang,$courier,'city',$destination_type);
 
 			if(is_array($hitungongkos)){
 				foreach ($hitungongkos as $key => $value) {
@@ -136,7 +147,7 @@ class ModelShippingIndoShip extends Model {
 									'title'        => $title,
 									'cost'         => $ongkos,
 									'tax_class_id' => $this->config->get('indoship_tax_class_id'),
-									'text'         => '<b>'.$this->currency->format($this->tax->calculate($ongkos, $this->config->get('indoship_tax_class_id'), $this->config->get('config_tax'))).'</b>'
+									'text'         => '<b>'.$this->currency->format($ongkos,'',1).'</b>'
 									);
 									//return $quote_data;
 									//print_r($quote_data);

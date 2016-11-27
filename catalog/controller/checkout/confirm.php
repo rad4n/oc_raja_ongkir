@@ -79,7 +79,6 @@ class ControllerCheckoutConfirm extends Controller {
 					$this->{'model_total_' . $result['code']}->getTotal($order_data['totals'], $total, $taxes);
 				}
 			}
-
 			$sort_order = array();
 
 			foreach ($order_data['totals'] as $key => $value) {
@@ -398,7 +397,6 @@ class ControllerCheckoutConfirm extends Controller {
 			}
 
 			$data['totals'] = array();
-
 			foreach ($order_data['totals'] as $total) {
 				$data['totals'][] = array(
 					'title' => $total['title'],

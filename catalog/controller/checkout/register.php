@@ -38,6 +38,8 @@ class ControllerCheckoutRegister extends Controller {
 		$data['button_continue'] = $this->language->get('button_continue');
 		$data['button_upload'] = $this->language->get('button_upload');
 
+		
+
 		$data['customer_groups'] = array();
 
 		if (is_array($this->config->get('config_customer_group_display'))) {
@@ -65,6 +67,12 @@ class ControllerCheckoutRegister extends Controller {
 		//convert json to array
 		$cities = json_decode($city,true);
 		$data['destinasi'] = $cities['rajaongkir']['results'];
+		$data['rajaongkir_type'] = $rajaongkir->type_account;
+
+		//if rajaongkir type is pro
+		$kecamatan = $rajaongkir->subDistrict();
+		$kecamatans = json_decode($kecamatan,true);
+
 
 		if (isset($this->session->data['shipping_address']['city'])) {
 			$data['city'] = $this->session->data['shipping_address']['city'];

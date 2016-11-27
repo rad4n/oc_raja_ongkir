@@ -117,6 +117,10 @@ class ControllerCheckoutGuest extends Controller {
 		$cities = json_decode($city,true);
 		$data['destinasi'] = $cities['rajaongkir']['results'];
 
+		$data['rajaongkir_type'] = $rajaongkir->type_account;
+		
+		
+
 		/*if (isset($this->session->data['payment_address']['city'])) {
 			$data['city'] = $this->session->data['payment_address']['city'];
 		} else {
@@ -305,6 +309,7 @@ class ControllerCheckoutGuest extends Controller {
 			$this->session->data['payment_address']['address_2'] = $this->request->post['address_2'];
 			$this->session->data['payment_address']['postcode'] = $this->request->post['postcode'];
 			$this->session->data['payment_address']['city'] = $this->request->post['city'];
+			$this->session->data['payment_address']['kecamatan'] = $this->request->post['kecamatan'];
 			$this->session->data['payment_address']['country_id'] = $this->request->post['country_id'];
 			$this->session->data['payment_address']['zone_id'] = $this->request->post['zone_id'];
 
@@ -357,6 +362,7 @@ class ControllerCheckoutGuest extends Controller {
 				$this->session->data['shipping_address']['address_2'] = $this->request->post['address_2'];
 				$this->session->data['shipping_address']['postcode'] = $this->request->post['postcode'];
 				$this->session->data['shipping_address']['city'] = $this->request->post['city'];
+				$this->session->data['shipping_address']['kecamatan'] = $this->request->post['kecamatan'];
 				$this->session->data['shipping_address']['country_id'] = $this->request->post['country_id'];
 				$this->session->data['shipping_address']['zone_id'] = $this->request->post['zone_id'];
 

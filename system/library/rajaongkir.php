@@ -5,6 +5,7 @@
 */
 class rajaOngkir{
 	private $key;
+	public $type_account;
 	public function __construct()
 	{
 		global $loader, $registry;
@@ -24,6 +25,7 @@ class rajaOngkir{
 				$this->type = 'http://pro.rajaongkir.com/api/';
 				break;
 		}
+		$this->type_account = $setting['indoship_type_api'];
 	}
 	//menampilkan data provinsi
 	public function showProvince()
@@ -108,8 +110,36 @@ class rajaOngkir{
 					
 				
 	}
+
+	public function subDistrict($id_city){
+		$curl = curl_init();
+
+		curl_setopt_array($curl, array(
+		  CURLOPT_URL => "http://pro.rajaongkir.com/api/subdistrict?city=$id_city",
+		  CURLOPT_RETURNTRANSFER => true,
+		  CURLOPT_ENCODING => "",
+		  CURLOPT_MAXREDIRS => 10,
+		  CURLOPT_TIMEOUT => 30,
+		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		  CURLOPT_CUSTOMREQUEST => "GET",
+		  CURLOPT_HTTPHEADER => array(
+		    "key: $this->key"
+		  ),
+		));
+
+		$response = curl_exec($curl);
+		$err = curl_error($curl);
+
+		curl_close($curl);
+
+		if ($err) {
+		  echo "cURL Error #:" . $err;
+		} else {
+		  echo $response;
+		}
+	}
 	//hitung ongkir
-	public function hitungOngkir($origin,$destination,$weight,$courier)
+	public function hitungOngkir($origin,$destination,$weight,$courier,$originType='city',$destinationType='city')
 	{
 		$curl = curl_init();
 		// if($courier=='all'){
@@ -141,13 +171,14 @@ class rajaOngkir{
 			CURLOPT_TIMEOUT => 30,
 			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 			CURLOPT_CUSTOMREQUEST => "POST",
-			CURLOPT_POSTFIELDS => "origin=$origin&destination=$destination&weight=$weight&courier=$courier",
+			CURLOPT_POSTFIELDS => "origin=$origin&originType=$originType&destination=$destination&destinationType=$destinationType&weight=$weight&courier=$courier",
 			CURLOPT_HTTPHEADER => array(
 				"key: $this->key"
 				),
 			));
 			//$response = curl_exec($curl);
 		//}
+
 		$response = curl_exec($curl);
 		//print_r(json_encode($response)); exit();
 		$err = curl_error($curl);
