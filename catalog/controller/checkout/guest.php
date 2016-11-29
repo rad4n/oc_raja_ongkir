@@ -117,8 +117,14 @@ class ControllerCheckoutGuest extends Controller {
 		$cities = json_decode($city,true);
 		$data['destinasi'] = $cities['rajaongkir']['results'];
 
+		$data['rajaongkir_type'] = $rajaongkir->type_account;
 		
-		
+		//get list country
+		$negara = $rajaongkir->internationalDestination();
+		$country = json_decode($negara,true);
+		$data['negara'] = $country['rajaongkir']['results'];
+		$data['rajaongkir_type'] = $rajaongkir->type_account;
+
 		
 
 		/*if (isset($this->session->data['payment_address']['city'])) {

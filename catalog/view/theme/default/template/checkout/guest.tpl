@@ -159,19 +159,28 @@
         <input type="text" name="company" value="<?php echo $company; ?>" placeholder="<?php echo $entry_company; ?>" id="input-payment-company" class="form-control" />
       </div>
 
-      <div class="form-group required">
-        <label class="control-label" for="input-payment-country"><?php echo $entry_country; ?></label>
-        <select name="country_id" id="input-payment-country" class="form-control">
-          <option value=""><?php echo $text_select; ?></option>
-          <?php foreach ($countries as $country) { ?>
-          <?php if ($country['country_id'] == $country_id) { ?>
-          <option value="<?php echo $country['country_id']; ?>" selected="selected"><?php echo $country['name']; ?></option>
-          <?php } else { ?>
-          <option value="<?php echo $country['country_id']; ?>"><?php echo $country['name']; ?></option>
-          <?php } ?>
-          <?php } ?>
-        </select>
-      </div>
+      <div class="form-group required" id="div-country">
+        </div>
+        <input type="checkbox" name="luar_negeri" id="luar_negeri"> Pilih Luar Indonesia
+
+      <script>
+       // $("#div-country").html(' <label class="control-label" for="input-payment-country"><?php echo $entry_country; ?></label> <select name="country_id" id="input-payment-country" class="form-control" disabled="disabled"> <option value=""><?php echo $text_select; ?></option> <?php foreach ($countries as $country) { ?> <?php if ($country['country_id'] == $country_id) { ?> <option value="<?php echo $country['country_id']; ?>" selected="selected"><?php echo $country['name']; ?></option> <?php } else { ?> <option value="<?php echo $country['country_id']; ?>"><?php echo $country['name']; ?></option> <?php } ?> <?php } ?> </select>');
+        // $( "#luar_negeri" ).change(function() {
+        //   var $input = $( this );
+        //   if($input.prop( "checked" )==true){
+        //     // $("#input-payment-country").removeAttr("disabled");
+        //     $("#div-country").empty();
+        //     $("#div-country").html(' <label class="control-label" for="input-payment-country"><?php echo $entry_country; ?></label> <select name="country_id" id="input-payment-country" class="form-control" disabled="disabled"> <option value=""><?php echo $text_select; ?></option> <?php foreach ($countries as $country) { ?> <?php if ($country['country_id'] == $country_id) { ?> <option value="<?php echo $country['country_id']; ?>" selected="selected"><?php echo $country['name']; ?></option> <?php } else { ?> <option value="<?php echo $country['country_id']; ?>"><?php echo $country['name']; ?></option> <?php } ?> <?php } ?> </select>');
+        //   }
+        //   if($input.prop( "checked" )==false){
+        //     // $("#input-payment-country").attr('value','100');
+        //     // $("#input-payment-country").attr('disabled','disabled');
+        //     $("#div-country").empty();
+        //     $("#div-country").html('<label class=" control-label" for="input-payment-negara"><?php echo "Country"; ?></label> <select name="negara" id="input-payment-country" class="form-control"> <?php foreach ($negara as $asal1) { ?> <option value="<?php echo $asal1['country_id']; ?>"><?php echo $asal1['country_name']; ?></option> <?php } ?> </select>');
+        //   }
+
+        // });
+      </script>
 
       
 
