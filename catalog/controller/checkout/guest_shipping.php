@@ -69,6 +69,12 @@ class ControllerCheckoutGuestShipping extends Controller {
 		$cities = json_decode($city,true);
 		$data['destinasi'] = $cities['rajaongkir']['results'];
 
+		//get list country
+		$negara = $rajaongkir->internationalDestination();
+		$country = json_decode($negara,true);
+		$data['negara'] = $country['rajaongkir']['results'];
+		$data['rajaongkir_type'] = $rajaongkir->type_account;
+
 		/*if (isset($this->session->data['shipping_address']['city'])) {
 			$data['city'] = $this->session->data['shipping_address']['city'];
 		} else {

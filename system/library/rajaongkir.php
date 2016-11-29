@@ -223,7 +223,7 @@ class rajaOngkir{
 		$curl = curl_init();
 
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => "http://pro.rajaongkir.com/api/v2/internationalDestination?id=108",
+		  CURLOPT_URL => "http://pro.rajaongkir.com/api/v2/internationalDestination",
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => "",
 		  CURLOPT_MAXREDIRS => 10,
@@ -241,9 +241,9 @@ class rajaOngkir{
 		curl_close($curl);
 
 		if ($err) {
-		  echo "cURL Error #:" . $err;
+		  return "cURL Error #:" . $err;
 		} else {
-		  echo $response;
+		  return $response;
 		}
 	}
 

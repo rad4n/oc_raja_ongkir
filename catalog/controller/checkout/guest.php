@@ -117,7 +117,7 @@ class ControllerCheckoutGuest extends Controller {
 		$cities = json_decode($city,true);
 		$data['destinasi'] = $cities['rajaongkir']['results'];
 
-		$data['rajaongkir_type'] = $rajaongkir->type_account;
+		
 		
 		
 

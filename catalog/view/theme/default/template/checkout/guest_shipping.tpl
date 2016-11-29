@@ -17,18 +17,18 @@
       <input type="text" name="company" value="<?php echo $company; ?>" placeholder="<?php echo $entry_company; ?>" id="input-shipping-company" class="form-control" />
     </div>
   </div>
+
   <div class="form-group required">
-    <label class="col-sm-2 control-label" for="input-shipping-address-1"><?php echo $entry_address_1; ?></label>
-    <div class="col-sm-10">
-      <input type="text" name="address_1" value="<?php echo $address_1; ?>" placeholder="<?php echo $entry_address_1; ?>" id="input-shipping-address-1" class="form-control" />
+    <label class="col-sm-2 control-label" for="input-payment-city"><?php echo "Country"; ?></label>
+     <div class="col-sm-10">
+      <select name="negara" id="input-payment-country" class="form-control">
+          <?php foreach ($negara as $asal1) { ?>
+              <option value="<?php echo $asal1['country_id']; ?>"><?php echo $asal1['country_name']; ?></option>
+          <?php } ?>
+      </select>
     </div>
   </div>
-  <div class="form-group">
-    <label class="col-sm-2 control-label" for="input-shipping-address-2"><?php echo $entry_address_2; ?></label>
-    <div class="col-sm-10">
-      <input type="text" name="address_2" value="<?php echo $address_2; ?>" placeholder="<?php echo $entry_address_2; ?>" id="input-shipping-address-2" class="form-control" />
-    </div>
-  </div>
+
   <div class="form-group required">
     <label class="col-sm-2 control-label" for="input-shipping-city"><?php echo $entry_city; ?></label>
     <div class="col-sm-10">
@@ -52,12 +52,25 @@
     </div>
   </div>
   <div class="form-group required">
+    <label class="col-sm-2 control-label" for="input-shipping-address-1"><?php echo $entry_address_1; ?></label>
+    <div class="col-sm-10">
+      <input type="text" name="address_1" value="<?php echo $address_1; ?>" placeholder="<?php echo $entry_address_1; ?>" id="input-shipping-address-1" class="form-control" />
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label" for="input-shipping-address-2"><?php echo $entry_address_2; ?></label>
+    <div class="col-sm-10">
+      <input type="text" name="address_2" value="<?php echo $address_2; ?>" placeholder="<?php echo $entry_address_2; ?>" id="input-shipping-address-2" class="form-control" />
+    </div>
+  </div>
+  
+  <div class="form-group required">
     <label class="col-sm-2 control-label" for="input-shipping-postcode"><?php echo $entry_postcode; ?></label>
     <div class="col-sm-10">
       <input type="text" name="postcode" value="<?php echo $postcode; ?>" placeholder="<?php echo $entry_postcode; ?>" id="input-shipping-postcode" class="form-control" />
     </div>
   </div>
-  <div class="form-group required">
+  <!-- <div class="form-group required">
     <label class="col-sm-2 control-label" for="input-shipping-country"><?php echo $entry_country; ?></label>
     <div class="col-sm-10">
       <select name="country_id" id="input-shipping-country" class="form-control">
@@ -70,7 +83,7 @@
         <?php } ?>
         <?php } ?>
       </select>
-    </div>
+    </div> -->
   </div>
   <div class="form-group required">
     <label class="col-sm-2 control-label" for="input-shipping-zone"><?php echo $entry_zone; ?></label>
