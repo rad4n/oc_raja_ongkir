@@ -74,6 +74,7 @@ class ModelAccountAddress extends Model {
 				'postcode'       => $address_query->row['postcode'],
 				'city'           => $address_query->row['city'],
 				'zone_id'        => $address_query->row['zone_id'],
+				'kecamatan'      => $address_query->row['kecamatan'],
 				'zone'           => $zone,
 				'zone_code'      => $zone_code,
 				'country_id'     => $address_query->row['country_id'],
@@ -137,11 +138,12 @@ class ModelAccountAddress extends Model {
 				'iso_code_2'     => $iso_code_2,
 				'iso_code_3'     => $iso_code_3,
 				'address_format' => $address_format,
+				'kecamatan'		 => $result['kecamatan'],
 				'custom_field'   => unserialize($result['custom_field'])
 
 			);
 		}
-
+		
 		return $address_data;
 	}
 

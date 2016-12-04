@@ -69,9 +69,9 @@ class ControllerCheckoutRegister extends Controller {
 		$data['destinasi'] = $cities['rajaongkir']['results'];
 		$data['rajaongkir_type'] = $rajaongkir->type_account;
 
-		//if rajaongkir type is pro
-		$kecamatan = $rajaongkir->subDistrict();
-		$kecamatans = json_decode($kecamatan,true);
+		// //if rajaongkir type is pro
+		// $kecamatan = $rajaongkir->subDistrict();
+		// $kecamatans = json_decode($kecamatan,true);
 
 
 		if (isset($this->session->data['shipping_address']['city'])) {

@@ -43,6 +43,7 @@ class ControllerCheckoutPaymentAddress extends Controller {
 		//convert json to array
 		$cities = json_decode($city,true);
 		$data['destinasi'] = $cities['rajaongkir']['results'];
+		$data['rajaongkir_type'] = $rajaongkir->type_account;
 
 		if (isset($this->session->data['payment_address']['indoship_origins_name'])) {
 			$data['indoship_origins_name'] = $this->session->data['payment_address']['indoship_origins_name'];

@@ -59,11 +59,19 @@ class ModelShippingIndoShip extends Model {
 				}else if ($key['city_id'] == $this->config->get('indoship_origins')) {
 					$origi = $key['city_name'];
 				}else if($key['city_id'] == $address['city']){
-					if($type_account==3) $desti = $address['kecamatan'];
+					if($type_account==3) {
+						 if (!ctype_alpha($address['kecamatan'])){
+						 	$id_kecamatan = $rajaongkir->subDistrict("",$address['kecamatan']);
+						 	$r = json_decode($id_kecamatan,true);
+						 	$desti = $r['rajaongkir']['results']['subdistrict_name'];
+
+						 }
+						else $desti = $address['kecamatan'];
+					}
 					else $desti = $key['city_name'];
 				}
 			}
-
+			
 			//Menampilkan asal dan tujuan kiriman
 			$display_origin_destination = $this->config->get('indoship_destinasi');
 			//$display_origin_destination = ((int)$display_origin_destination == 1 || $display_origin_destination == 'y' ? true : false);

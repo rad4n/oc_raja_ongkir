@@ -77,6 +77,12 @@ class ControllerCheckoutShippingAddress extends Controller {
 			$data['zone_id'] = '';
 		}
 
+		if (isset($this->session->data['shipping_address']['kecamatan'])) {
+			$data['kecamatan'] = $this->session->data['shipping_address']['kecamatan'];
+		} else {
+			$data['kecamatan'] = '';
+		}
+
 		$this->load->model('localisation/country');
 
 		$data['countries'] = $this->model_localisation_country->getCountries();
