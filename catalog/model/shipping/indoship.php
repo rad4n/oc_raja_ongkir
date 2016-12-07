@@ -69,6 +69,8 @@ class ModelShippingIndoShip extends Model {
 						else $desti = $address['kecamatan'];
 					}
 					else $desti = $key['city_name'];
+				}else{
+					$desti = $address['kecamatan'];
 				}
 			}
 			

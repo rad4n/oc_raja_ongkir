@@ -48,6 +48,15 @@ class ControllerCheckoutShipping extends Controller {
 				$data['shipping_method'] = '';
 			}
 
+			//rajaongkir
+			$rajaongkir = new rajaOngkir();
+			$city = $rajaongkir->allCity();
+			//convert json to array
+			$cities = json_decode($city,true);
+			$data['destinasi'] = $cities['rajaongkir']['results'];
+
+			$data['rajaongkir_type'] = $rajaongkir->type_account;
+
 			if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/checkout/shipping.tpl')) {
 				return $this->load->view($this->config->get('config_template') . '/template/checkout/shipping.tpl', $data);
 			} else {
@@ -69,48 +78,48 @@ class ControllerCheckoutShipping extends Controller {
 			$json['error']['warning'] = sprintf($this->language->get('error_no_shipping'), $this->url->link('information/contact'));
 		}
 
-		if ($this->request->post['country_id'] == '') {
-			$json['error']['country'] = $this->language->get('error_country');
-		}
+		// if ($this->request->post['country_id'] == '') {
+		// 	$json['error']['country'] = $this->language->get('error_country');
+		// }
 
-		if (!isset($this->request->post['zone_id']) || $this->request->post['zone_id'] == '') {
-			$json['error']['zone'] = $this->language->get('error_zone');
-		}
+		// if (!isset($this->request->post['zone_id']) || $this->request->post['zone_id'] == '') {
+		// 	$json['error']['zone'] = $this->language->get('error_zone');
+		// }
 
 		$this->load->model('localisation/country');
 
-		$country_info = $this->model_localisation_country->getCountry($this->request->post['country_id']);
+		// $country_info = $this->model_localisation_country->getCountry($this->request->post['country_id']);
 
-		if ($country_info && $country_info['postcode_required'] && (utf8_strlen(trim($this->request->post['postcode'])) < 2 || utf8_strlen(trim($this->request->post['postcode'])) > 10)) {
-			$json['error']['postcode'] = $this->language->get('error_postcode');
-		}
+		// if ($country_info && $country_info['postcode_required'] && (utf8_strlen(trim($this->request->post['postcode'])) < 2 || utf8_strlen(trim($this->request->post['postcode'])) > 10)) {
+		// 	$json['error']['postcode'] = $this->language->get('error_postcode');
+		// }
 
 		if (!$json) {
-			$this->tax->setShippingAddress($this->request->post['country_id'], $this->request->post['zone_id']);
+			// $this->tax->setShippingAddress($this->request->post['country_id'], $this->request->post['zone_id']);
 
-			if ($country_info) {
-				$country = $country_info['name'];
-				$iso_code_2 = $country_info['iso_code_2'];
-				$iso_code_3 = $country_info['iso_code_3'];
-				$address_format = $country_info['address_format'];
-			} else {
-				$country = '';
-				$iso_code_2 = '';
-				$iso_code_3 = '';
-				$address_format = '';
-			}
+			// if ($country_info) {
+			// 	$country = $country_info['name'];
+			// 	$iso_code_2 = $country_info['iso_code_2'];
+			// 	$iso_code_3 = $country_info['iso_code_3'];
+			// 	$address_format = $country_info['address_format'];
+			// } else {
+			// 	$country = '';
+			// 	$iso_code_2 = '';
+			// 	$iso_code_3 = '';
+			// 	$address_format = '';
+			// }
 
-			$this->load->model('localisation/zone');
+			// $this->load->model('localisation/zone');
 
-			$zone_info = $this->model_localisation_zone->getZone($this->request->post['zone_id']);
+			// $zone_info = $this->model_localisation_zone->getZone($this->request->post['zone_id']);
 
-			if ($zone_info) {
-				$zone = $zone_info['name'];
-				$zone_code = $zone_info['code'];
-			} else {
-				$zone = '';
-				$zone_code = '';
-			}
+			// if ($zone_info) {
+			// 	$zone = $zone_info['name'];
+			// 	$zone_code = $zone_info['code'];
+			// } else {
+			// 	$zone = '';
+			// 	$zone_code = '';
+			// }
 
 			$this->session->data['shipping_address'] = array(
 				'firstname'      => '',
@@ -120,14 +129,15 @@ class ControllerCheckoutShipping extends Controller {
 				'address_2'      => '',
 				'postcode'       => $this->request->post['postcode'],
 				'city'           => '',
-				'zone_id'        => $this->request->post['zone_id'],
-				'zone'           => $zone,
-				'zone_code'      => $zone_code,
-				'country_id'     => $this->request->post['country_id'],
-				'country'        => $country,
-				'iso_code_2'     => $iso_code_2,
-				'iso_code_3'     => $iso_code_3,
-				'address_format' => $address_format
+				'zone_id'        => 1,
+				//'zone'           => $zone,//$this->request->post['zone_id'],
+				//'zone_code'      => $zone_code,//$this->request->post['country_id'],
+				'country_id'     => '100',
+				//'country'        => $country,
+				// 'iso_code_2'     => $iso_code_2,
+				// 'iso_code_3'     => $iso_code_3,
+				// 'address_format' => $address_format,
+				'kecamatan'		 => $this->request->post['kecamatan']
 			);
 
 			$quote_data = array();
