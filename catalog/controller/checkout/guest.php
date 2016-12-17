@@ -128,18 +128,20 @@ class ControllerCheckoutGuest extends Controller {
 		}*/
 
 		if (isset($this->session->data['payment_address']['city'])) {
-			$data['city'] = $this->session->data['payment_address']['city'];
-		} elseif (isset($this->session->data['shipping_address']['city'])) {
-			$data['city'] = $this->session->data['shipping_address']['indoship_city'];
-		} else {
+			$data['city'] = $this->session->data['payment_address']['city'];}
+		//  elseif (isset($this->session->data['shipping_address']['city'])) {
+		// 	$data['city'] = $this->session->data['shipping_address']['indoship_city'];
+		// } 
+			else {
 			$data['city'] = $this->config->get('config_city');
 		}
 
 		if (isset($this->session->data['payment_address']['city_id'])) {
-			$data['city_id'] = $this->session->data['payment_address']['city_id'];
-		} elseif (isset($this->session->data['shipping_address']['city_id'])) {
-			$data['city_id'] = $this->session->data['shipping_address']['indoship_city_id'];
-		} else {
+			$data['city_id'] = $this->session->data['payment_address']['city_id'];}
+		//  elseif (isset($this->session->data['shipping_address']['city_id'])) {
+		// 	$data['city_id'] = $this->session->data['shipping_address']['indoship_city_id'];
+		// } 
+			else {
 			$data['city_id'] = $this->config->get('config_city_id');
 		}
 
