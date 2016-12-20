@@ -29,7 +29,7 @@
           </div>
         </div> -->
         <div class="form-group required">
-        <label class="col-sm-2 control-label" for="input-payment-city"><?php //echo $entry_city; ?></label>
+        <label class="col-sm-2 control-label" for="input-payment-city"><?php echo "kota"; //echo $entry_city; ?></label>
         <div class="col-sm-10">
 	        <select name="city" id="input-payment-city" class="form-control">
 	            <?php foreach ($destinasi as $asal) { ?>

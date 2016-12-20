@@ -156,7 +156,7 @@ class rajaOngkir{
 	}
 	//hitung ongkir
 	public function hitungOngkir($origin,$destination,$weight,$courier,$originType='city',$destinationType='city')
-	{
+	{	$weight = ceil(number_format($weight / 1000, 2));
 		$curl = curl_init();
 		// if($courier=='all'){
 		// 	$courier = array('jne','tiki','pos');

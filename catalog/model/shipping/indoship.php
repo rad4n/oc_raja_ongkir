@@ -52,27 +52,28 @@ class ModelShippingIndoShip extends Model {
 			$addrss = json_decode($addres,true);
 			$add = $addrss['rajaongkir']['results'];
 			
-			foreach ($add as $key) {
-				if ($key['city_name'] == $address['city']){
-					if($type_account==3) $desti = $address['kecamatan'];
-					else $desti = $address['city'];
-				}else if ($key['city_id'] == $this->config->get('indoship_origins')) {
-					$origi = $key['city_name'];
-				}else if($key['city_id'] == $address['city']){
-					if($type_account==3) {
-						 if (!ctype_alpha($address['kecamatan'])){
-						 	$id_kecamatan = $rajaongkir->subDistrict("",$address['kecamatan']);
-						 	$r = json_decode($id_kecamatan,true);
-						 	$desti = $r['rajaongkir']['results']['subdistrict_name'];
+			
+					foreach ($add as $key) {
+					if ($key['city_name'] == $address['city']){
+						if($type_account==3) $desti = $address['kecamatan'];
+						else $desti = $address['city'];
+					}else if ($key['city_id'] == $this->config->get('indoship_origins')) {
+						$origi = $key['city_name'];
+					}else if($key['city_id'] == $address['city']){
+						if($type_account==3) {
+							 if (!ctype_alpha($address['kecamatan'])){
+							 	$id_kecamatan = $rajaongkir->subDistrict("",$address['kecamatan']);
+							 	$r = json_decode($id_kecamatan,true);
+							 	$desti = $r['rajaongkir']['results']['subdistrict_name'];
 
-						 }
-						else $desti = $address['kecamatan'];
+							 }
+							else $desti = $address['kecamatan'];
+						}
+						else $desti = $key['city_name'];
+					}else{
+						$desti = $address['kecamatan'];
 					}
-					else $desti = $key['city_name'];
-				}else{
-					$desti = $address['kecamatan'];
-				}
-			}
+					}
 			
 			//Menampilkan asal dan tujuan kiriman
 			$display_origin_destination = $this->config->get('indoship_destinasi');
@@ -86,13 +87,19 @@ class ModelShippingIndoShip extends Model {
 			//Menghitung tarif ongkir dengan parameter origin,destinasi,courier,dan weight
 			$origin = $this->config->get('indoship_origins');
 			
-
-			foreach ($add as $key) {
+			if(!empty($address['kecamatan'])) {
+				$destinasi = $address['kecamatan'];
+				$key = "jne:pos:tiki";
+				$courier = "jne:pos:tiki";
+			}
+			else {
+				foreach ($add as $key) {
 					if ($this->session->data['shipping_address']['city'] == $key['city_id']) {
 						$destinasi = $this->session->data['shipping_address']['city'];
 					}else{
 						$destinasi = $key['city_id'];
 					}
+				}
 			}
 
 
@@ -100,9 +107,9 @@ class ModelShippingIndoShip extends Model {
 			if($courier=='all'){
 				$courier = array('jne','tiki','pos');
 
-				foreach ($courier as $key) {
-					$hitungongkos[] = $rajaongkir->hitungOngkir($origin,$destinasi,$beratBarang,$key,'city',$destination_type);
-				}
+				//foreach ($courier as $key) {
+					$hitungongkos = $rajaongkir->hitungOngkir($origin,$destinasi,$beratBarang,$key,'city',$destination_type);
+				//}
 			}
 			else $hitungongkos = $rajaongkir->hitungOngkir($origin,$destinasi,$beratBarang,$courier,'city',$destination_type);
 
@@ -117,23 +124,70 @@ class ModelShippingIndoShip extends Model {
 				$hitungOngkir = $ongkir['rajaongkir']['results'];
 			}
 			
-			if (!empty($hitungOngkir)) {
-				if(is_array($hitungongkos)){
-					foreach ($hitungOngkir as $key => $service) {
-						if ($service[0]['code']=='pos') {
-							$kurir = $service[0]['name'];
-							//print_r($kurir);
-						}elseif ($service[0]['code']=='tiki') {
-							$kurir = $service[0]['name'];
-							//print_r($kurir);
-						}else{
-							$kurir = $service[0]['name'];
-							//print_r($kurir);
-						}
-						foreach ($service[0]['costs'] as $value) {
-							$services = $value['service'];
+			if (!empty($hitungOngkir)) {//pre($hitungOngkir);
+				//if(is_array($hitungongkos)){
+					// foreach ($hitungOngkir as $key => $service) {
+					// 	if ($key[0]['code']=='pos') {
+					// 		$kurir = $key[0]['name'];
+					// 		//print_r($kurir);
+					// 	}elseif ($key[0]['code']=='tiki') {
+					// 		$kurir = $key[0]['name'];
+					// 		//print_r($kurir);
+					// 	}else{
+					// 		$kurir = $key[0]['name'];
+					// 		//print_r($kurir);
+					// 	}
+					// 	foreach ($service['costs'] as $value) {
+					// 		$services = $value['service'];
+					// 		///print_r($services);
+					// 		$description = $value['description'];
+					// 		//print_r($description);
+						
+					// 		foreach ($value['cost'] as $costs) {
+					// 			$ongkos = $costs['value'];
+					// 			//print_r($ongkos);
+					// 			if ($costs['etd']=='') {
+					// 				$etd = "-, ";
+					// 			}elseif ($costs['note']==''){
+					// 				$note = "-";
+					// 			}elseif (empty($costs['etd'])){
+					// 				$etd = "";
+					// 			}else{
+					// 				$etd = $costs['etd'].' Hari, ';
+					// 				$note = $costs['note'];
+					// 			}
+					// 				//getAllQuotes
+					// 				$title = '<b>Kurir: </b>'.$kurir.', <b>Servis: </b>'.$services.', <b>Deskripsi: </b> '.$description.', <b>Catatan: </b> '.$note;
+					// 				$rname = 'indoship'.$description;
+					// 				$quote_data[$rname] = array(
+					// 				'code'         => 'indoship.'.$rname,
+					// 				'title'        => $title,
+					// 				'cost'         => $ongkos,
+					// 				'tax_class_id' => $this->config->get('indoship_tax_class_id'),
+					// 				'text'         => '<b>'.$this->currency->format($ongkos,'',1).'</b>'
+					// 				);
+					// 				//return $quote_data;
+					// 				//print_r($quote_data);
+					// 		}
+					// 	}
+					// }
+				//}
+				// else {
+						foreach ($hitungOngkir as $service) {//pre($service);
+						// if ($service['code']=='pos') {
+						// 	$kurir = $service['name'];
+						// 	//print_r($kurir);
+						// }elseif ($service['code']=='tiki') {
+						// 	$kurir = $service['name'];
+						// 	//print_r($kurir);
+						// }else{
+						// 	$kurir = $service['name'];
+						// 	//print_r($kurir);
+						// }
+						foreach ($service['costs'] as $value) {//pre($value);
+							//$services = $value['service'];
 							///print_r($services);
-							$description = $value['description'];
+							//$description = $value['description'];
 							//print_r($description);
 						
 							foreach ($value['cost'] as $costs) {
@@ -150,55 +204,8 @@ class ModelShippingIndoShip extends Model {
 									$note = $costs['note'];
 								}
 									//getAllQuotes
-									$title = '<b>Kurir: </b>'.$kurir.', <b>Servis: </b>'.$services.', <b>Deskripsi: </b> '.$description.', <b>Catatan: </b> '.$note;
-									$rname = 'indoship'.$description;
-									$quote_data[$rname] = array(
-									'code'         => 'indoship.'.$rname,
-									'title'        => $title,
-									'cost'         => $ongkos,
-									'tax_class_id' => $this->config->get('indoship_tax_class_id'),
-									'text'         => '<b>'.$this->currency->format($ongkos,'',1).'</b>'
-									);
-									//return $quote_data;
-									//print_r($quote_data);
-							}
-						}
-					}
-				}
-				else {
-						foreach ($hitungOngkir as $service) {
-						if ($service['code']=='pos') {
-							$kurir = $service['name'];
-							//print_r($kurir);
-						}elseif ($service['code']=='tiki') {
-							$kurir = $service['name'];
-							//print_r($kurir);
-						}else{
-							$kurir = $service['name'];
-							//print_r($kurir);
-						}
-						foreach ($service['costs'] as $value) {
-							$services = $value['service'];
-							///print_r($services);
-							$description = $value['description'];
-							//print_r($description);
-						
-							foreach ($value['cost'] as $costs) {
-								$ongkos = $costs['value'];
-								//print_r($ongkos);
-								if ($costs['etd']=='') {
-									$etd = "-, ";
-								}elseif ($costs['note']==''){
-									$note = "-";
-								}elseif (empty($costs['etd'])){
-									$etd = "";
-								}else{
-									$etd = $costs['etd'].' Hari, ';
-									$note = $costs['note'];
-								}
-									//getAllQuotes
-									$title = '<b>Kurir: </b>'.$kurir.', <b>Servis: </b>'.$services.', <b>Deskripsi: </b> '.$description.', <b>Catatan: </b> '.$note;
-									$rname = 'indoship'.$description;
+									$title = '<b>Kurir: </b>'.$service['name'].', <b>Servis: </b>'.$value['service'].', <b>Deskripsi: </b> '.$value['description'].', <b>Catatan: </b> '.$costs['note'];
+									$rname = 'indoship'.$value['description'];
 									$quote_data[$rname] = array(
 									'code'         => 'indoship.'.$rname,
 									'title'        => $title,
@@ -211,7 +218,7 @@ class ModelShippingIndoShip extends Model {
 							}
 						}
 					}
-				}
+				// }
 				//echo($cart_weight);
 			}
 			if(count($quote_data) < 1){
