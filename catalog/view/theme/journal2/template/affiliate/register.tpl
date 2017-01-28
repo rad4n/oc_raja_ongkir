@@ -97,14 +97,90 @@
             </div>
           </div>
           <div class="form-group required">
-            <label class="col-sm-2 control-label" for="input-city"><?php echo $entry_city; ?></label>
-            <div class="col-sm-10">
-              <input type="text" name="city" value="<?php echo $city; ?>" placeholder="<?php echo $entry_city; ?>" id="input-city" class="form-control" />
-              <?php if ($error_city) { ?>
-              <div class="text-danger"><?php echo $error_city; ?></div>
-              <?php } ?>
+        <label class=" col-sm-2 control-label" for="input-payment-country"><?php echo $entry_country; ?></label>
+        <div class="col-sm-10">
+        <select name="country_id" id="input-payment-country" class="form-control">
+          <option value=""><?php echo $text_select; ?></option>
+          <?php foreach ($countries as $country) { ?>
+          <?php if ($country['country_id'] == $country_id) { ?>
+          <option value="<?php echo $country['country_id']; ?>" selected="selected"><?php echo $country['name']; ?></option>
+          <?php } else { ?>
+          <option value="<?php echo $country['country_id']; ?>"><?php echo $country['name']; ?></option>
+          <?php } ?>
+          <?php } ?>
+        </select>
+        </div>
+      </div>
+      <div class="form-group required">
+        <label class="control-label col-sm-2" for="input-payment-city"><?php echo $entry_city; ?></label>
+        <div class="col-sm-10">
+        <select name="city" id="input-payment-city" class="form-control">
+        <?php foreach ($destinasi as $asal) { ?>
+            <!-- <?php if ($asal['city_id'] == $city) { ?>
+              <?php if ($asal['type'] == 'Kabupaten') { ?>
+                <option value="<?php print_r($asal['city_id']); ?>" selected="selected"><?php print_r($asal['city_name']); ?><?php echo " (Kab)";?></option>
+              <?php } else { ?>
+                <option value="<?php print_r($asal['city_id']); ?>" selected="selected"><?php print_r($asal['city_name']); ?></option>
+              <?php }?>
+            <?php } else { ?> -->
+              <?php if ($asal['type'] == 'Kabupaten') { ?>
+                <option value="<?php print_r($asal['city_id']); ?>"><?php print_r($asal['city_name']); ?><?php echo " (Kab)";?></option>
+              <?php } else {?>
+                <option value="<?php print_r($asal['city_id']); ?>"><?php print_r($asal['city_name']); ?></option>
+              <?php }?>
+            <!-- <?php } ?> -->
+            <?php } ?>
+            </select>
             </div>
+      </div>
+      <?php 
+        if($rajaongkir_type==3){
+      ?>
+        <script type="text/javascript">
+          //triger kecamatan
+          $('select[name=\'city\']').on('change', function() {
+            $.ajax({
+              url: 'index.php?route=checkout/checkout/city&city_id=' + this.value,
+              dataType: 'json',
+              beforeSend: function() {
+                $('#collapse-payment-address select[name=\'city\']').after(' <i class="fa fa-circle-o-notch fa-spin"></i>');
+              },
+              complete: function() {
+                $('.fa-spin').remove();
+              },
+              success: function(json) {
+                html = '<option value=""><?php echo $text_select; ?></option>';
+                console.log(json['rajaongkir']['results']);
+                if (json['rajaongkir']['results']) {
+                  for (i = 0; i < json['rajaongkir']['results'].length; i++) {
+                    html += '<option value="' + json['rajaongkir']['results'][i]['subdistrict_id'] + '"';
+
+                    // if (json['rajaongkir']['results'][i]['subdistrict_id'] == '<?php echo $kecamatan_id; ?>') {
+                    //   html += ' selected="selected"';
+                    // }
+
+                    html += '>' + json['rajaongkir']['results'][i]['subdistrict_name'] + '</option>';
+                  }
+                } else {
+                  html += '<option value="0" selected="selected"><?php echo $text_none; ?></option>';
+                }
+
+                $('select[name=\'kecamatan\']').html(html);
+              },
+              error: function(xhr, ajaxOptions, thrownError) {
+                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+              }
+            });
+          });
+        </script>
+        <div class="form-group required">
+          <label class="control-label col-sm-2" for="input-payment-kecamatan"><?php echo "kecamatan"; ?></label>
+          <div class="col-sm-10">
+          <select name="kecamatan" id="input-payment-kecamatan" class="form-control">
+          </select>
           </div>
+        </div>
+      <?php }?>
           <div class="form-group required">
             <label class="col-sm-2 control-label" for="input-postcode"><?php echo $entry_postcode; ?></label>
             <div class="col-sm-10">
@@ -114,25 +190,8 @@
               <?php } ?>
             </div>
           </div>
-          <div class="form-group required">
-            <label class="col-sm-2 control-label" for="input-country"><?php echo $entry_country; ?></label>
-            <div class="col-sm-10">
-              <select name="country_id" id="input-country" class="form-control">
-                <option value="false"><?php echo $text_select; ?></option>
-                <?php foreach ($countries as $country) { ?>
-                <?php if ($country['country_id'] == $country_id) { ?>
-                <option value="<?php echo $country['country_id']; ?>" selected="selected"><?php echo $country['name']; ?></option>
-                <?php } else { ?>
-                <option value="<?php echo $country['country_id']; ?>"><?php echo $country['name']; ?></option>
-                <?php } ?>
-                <?php } ?>
-              </select>
-              <?php if ($error_country) { ?>
-              <div class="text-danger"><?php echo $error_country; ?></div>
-              <?php } ?>
-            </div>
-          </div>
-          <div class="form-group required">
+          
+          <!-- <div class="form-group required">
             <label class="col-sm-2 control-label" for="input-zone"><?php echo $entry_zone; ?></label>
             <div class="col-sm-10">
               <select name="zone_id" id="input-zone" class="form-control">
@@ -141,7 +200,7 @@
               <div class="text-danger"><?php echo $error_zone; ?></div>
               <?php } ?>
             </div>
-          </div>
+          </div> -->
         </fieldset>
         <fieldset>
           <h2 class="secondary-title"><?php echo $text_payment; ?></h2>

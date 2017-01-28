@@ -226,6 +226,14 @@ class ControllerAffiliateRegister extends Controller {
 			$data['postcode'] = '';
 		}
 
+		$rajaongkir = new rajaOngkir();
+		$city = $rajaongkir->allCity();
+		//convert json to array
+		$cities = json_decode($city,true);
+		$data['destinasi'] = $cities['rajaongkir']['results'];
+
+		$data['rajaongkir_type'] = $rajaongkir->type_account;
+
 		if (isset($this->request->post['city'])) {
 			$data['city'] = $this->request->post['city'];
 		} else {
