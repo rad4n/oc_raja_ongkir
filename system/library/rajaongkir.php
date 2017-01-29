@@ -6,6 +6,8 @@
 class rajaOngkir{
 	private $key;
 	public $type_account;
+	public $handling_fee;
+	public $minimum_belanja;
 	public function __construct()
 	{
 		global $loader, $registry;
@@ -26,6 +28,8 @@ class rajaOngkir{
 				break;
 		}
 		$this->type_account = $setting['indoship_type_api'];
+		$this->handling_fee = $setting['indoship_handling_fee'];
+		//$this->minimum_belanja = $setting['indoship_minimum_belanja'];
 	}
 	//menampilkan data provinsi
 	public function showProvince()
@@ -197,6 +201,11 @@ class rajaOngkir{
 
 		$response = curl_exec($curl);
 		//print_r(json_encode($response)); exit();
+		############################CASE IMPORTANT
+		// $response = json_decode($response,true);
+		// foreach ($response['rajaongkir']['results'] as $key => $v) {
+		// 	print_r($v); exit();
+		// }
 		$err = curl_error($curl);
 		curl_close($curl);
 		if ($err) {

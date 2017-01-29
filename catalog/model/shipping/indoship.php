@@ -3,6 +3,33 @@ class ModelShippingIndoShip extends Model {
 	function getQuote($address) {
 		$this->load->language('shipping/indoship');
 
+		//Begin get total shopping for minimal shopping
+		$order_data['totals'] = array();
+		$total = 0;
+		$taxes = $this->cart->getTaxes();
+
+		$this->load->model('extension/extension');
+
+		$sort_order = array();
+
+		$results = $this->model_extension_extension->getExtensions('total');
+
+		foreach ($results as $key => $value) {
+			$sort_order[$key] = $this->config->get($value['code'] . '_sort_order');
+		}
+
+		array_multisort($sort_order, SORT_ASC, $results);
+
+		foreach ($results as $result) {
+			if ($this->config->get($result['code'] . '_status')) {
+				$this->load->model('total/' . $result['code']);
+
+				$this->{'model_total_' . $result['code']}->getTotal($order_data['totals'], $total, $taxes);
+			}
+		}
+		$shopping_total = $order_data['totals'][0]['value'];
+		//End get total shoppiing for minimal shopping
+
 		$rajaongkir = new rajaOngkir();
 		if ($this->config->get('indoship_status')) {
 			$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zone_to_geo_zone WHERE geo_zone_id = '" . (int)$this->config->get('indo_geo_zone_id') . "' AND country_id = '" . (int)$address['country_id'] . "' AND (zone_id = '" . (int)$address['zone_id'] . "' OR zone_id = '0')");	
@@ -124,7 +151,7 @@ class ModelShippingIndoShip extends Model {
 				$hitungOngkir = $ongkir['rajaongkir']['results'];
 			}
 			
-			if (!empty($hitungOngkir)) {//pre($hitungOngkir);
+			if (!empty($hitungOngkir)) {pre($hitungOngkir);
 				//if(is_array($hitungongkos)){
 					// foreach ($hitungOngkir as $key => $service) {
 					// 	if ($key[0]['code']=='pos') {
@@ -173,6 +200,7 @@ class ModelShippingIndoShip extends Model {
 					// }
 				//}
 				// else {
+
 						foreach ($hitungOngkir as $service) {//pre($service);
 						// if ($service['code']=='pos') {
 						// 	$kurir = $service['name'];
@@ -189,10 +217,41 @@ class ModelShippingIndoShip extends Model {
 							///print_r($services);
 							//$description = $value['description'];
 							//print_r($description);
+
+
+							//get value of setting handling fee and minimum belanja
+							global $loader, $registry;
+					    	$loader->model('setting/setting');
+					    	$model = $registry->get('model_setting_setting');
+							$setting = $model->getSetting('indoship'); 
+
+							
 						
 							foreach ($value['cost'] as $costs) {
-								$ongkos = $costs['value'];
-								//print_r($ongkos);
+								if($service['code']=="jne"){
+									if($value['service'] == "CTC" AND $shopping_total < $setting['indoship_minimum_belanja_jne_oke']) continue;
+								}
+
+								if($service['code']=="jne"){
+									if($value['service'] == "CTCYES" AND $shopping_total < $setting['indoship_minimum_belanja_jne_yes']) continue;
+								}
+
+								if($service['code']=="jne"){
+									if($value['service'] == "JTR" AND $shopping_total < $setting['indoship_minimum_belanja_jne_trucking']) continue;
+								}
+
+								if($service['code']=="jne"){
+									if($value['service'] == "JTR<150" AND $shopping_total < $setting['indoship_minimum_belanja_jne_trucking']) continue;
+								}
+
+								if($service['code']=="jne"){
+									if($value['service'] == "JTR>250" AND $shopping_total < $setting['indoship_minimum_belanja_jne_trucking']) continue;
+								}
+
+								if($service['code']=="tiki"){
+									if($value['service'] == "REG" AND $shopping_total < $setting['indoship_minimum_belanja_tiki_regular']) continue;
+								}
+								$ongkos = $costs['value'] + $setting['indoship_handling_fee'];
 								if ($costs['etd']=='') {
 									$etd = "-, ";
 								}elseif ($costs['note']==''){
@@ -203,6 +262,7 @@ class ModelShippingIndoShip extends Model {
 									$etd = $costs['etd'].' Hari, ';
 									$note = $costs['note'];
 								}
+
 									//getAllQuotes
 									$title = '<b>Kurir: </b>'.$service['name'].', <b>Servis: </b>'.$value['service'].', <b>Deskripsi: </b> '.$value['description'].', <b>Catatan: </b> '.$costs['note'];
 									$rname = 'indoship'.$value['description'];
@@ -252,6 +312,7 @@ class ModelShippingIndoShip extends Model {
 			);
 		}
 		//print_r($method_data);
+
 		return $method_data;
 	}
 }

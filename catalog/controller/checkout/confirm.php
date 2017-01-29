@@ -80,11 +80,10 @@ class ControllerCheckoutConfirm extends Controller {
 				}
 			}
 			$sort_order = array();
-
+			
 			foreach ($order_data['totals'] as $key => $value) {
 				$sort_order[$key] = $value['sort_order'];
 			}
-
 			array_multisort($sort_order, SORT_ASC, $order_data['totals']);
 
 			$this->load->language('checkout/checkout');

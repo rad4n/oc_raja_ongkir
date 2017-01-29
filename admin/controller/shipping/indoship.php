@@ -45,6 +45,17 @@ class ControllerShippingIndoship extends Controller {
 		$data['entry_mode_berat'] = $this->language->get('entry_mode_berat');
 		$data['entry_tampilan_destinasi'] = $this->language->get('entry_tampilan_destinasi');
 		$data['entry_origin'] = $this->language->get('entry_origin');
+		$data['entry_handling_fee'] = $this->language->get('entry_handling_fee');
+		$data['entry_minimum_belanja_jne_oke'] = $this->language->get('entry_minimum_belanja_jne_oke');
+		$data['entry_minimum_belanja_jne_yes'] = $this->language->get('entry_minimum_belanja_jne_yes');
+		$data['entry_minimum_belanja_jne_trucking'] = $this->language->get('entry_minimum_belanja_jne_trucking');
+		$data['entry_minimum_belanja_tiki_regular'] = $this->language->get('entry_minimum_belanja_tiki_regular');
+		$data['entry_minimum_belanja_tiki_overnight'] = $this->language->get('entry_minimum_belanja_tiki_overnight');
+		$data['entry_minimum_belanja_tiki_sameday'] = $this->language->get('entry_minimum_belanja_tiki_sameday');
+		$data['entry_minimum_belanja_tiki_holiday'] = $this->language->get('entry_minimum_belanja_tiki_holiday');
+		$data['entry_minimum_belanja_pos_kilat'] = $this->language->get('entry_minimum_belanja_pos_kilat');
+		$data['entry_minimum_belanja_pos_sameday'] = $this->language->get('entry_minimum_belanja_pos_sameday');
+		$data['entry_minimum_belanja_pos_nextday'] = $this->language->get('entry_minimum_belanja_pos_nextday');
 
 		$data['help_tampilan_destinasi'] = $this->language->get('help_tampilan_destinasi');
 		$data['help_mode_berat'] = $this->language->get('help_mode_berat');
@@ -171,6 +182,74 @@ class ControllerShippingIndoship extends Controller {
 		} else {
 			$data['indoship_status'] = $this->config->get('indoship_status');
 		}
+
+		if (isset($this->request->post['indoship_handling_fee'])) {
+			$data['indoship_handling_fee'] = $this->request->post['indoship_handling_fee'];
+		} else {
+			$data['indoship_handling_fee'] = $this->config->get('indoship_handling_fee');
+		}
+
+		if (isset($this->request->post['indoship_minimum_belanja_jne_oke'])) {
+			$data['indoship_minimum_belanja_jne_oke'] = $this->request->post['indoship_minimum_belanja_jne_oke'];
+		} else {
+			$data['indoship_minimum_belanja_jne_oke'] = $this->config->get('indoship_minimum_belanja_jne_oke');
+		}
+
+		if (isset($this->request->post['indoship_minimum_belanja_jne_yes'])) {
+			$data['indoship_minimum_belanja_jne_yes'] = $this->request->post['indoship_minimum_belanja_jne_yes'];
+		} else {
+			$data['indoship_minimum_belanja_jne_yes'] = $this->config->get('indoship_minimum_belanja_jne_yes');
+		}
+
+		if (isset($this->request->post['indoship_minimum_belanja_jne_trucking'])) {
+			$data['indoship_minimum_belanja_jne_trucking'] = $this->request->post['indoship_minimum_belanja_jne_trucking'];
+		} else {
+			$data['indoship_minimum_belanja_jne_trucking'] = $this->config->get('indoship_minimum_belanja_jne_trucking');
+		}
+
+		if (isset($this->request->post['indoship_minimum_belanja_tiki_regular'])) {
+			$data['indoship_minimum_belanja_tiki_regular'] = $this->request->post['indoship_minimum_belanja_tiki_regular'];
+		} else {
+			$data['indoship_minimum_belanja_tiki_regular'] = $this->config->get('indoship_minimum_belanja_tiki_regular');
+		}
+
+		if (isset($this->request->post['indoship_minimum_belanja_tiki_overnight'])) {
+			$data['indoship_minimum_belanja_tiki_overnight'] = $this->request->post['indoship_minimum_belanja_tiki_overnight'];
+		} else {
+			$data['indoship_minimum_belanja_tiki_overnight'] = $this->config->get('indoship_minimum_belanja_tiki_overnight');
+		}
+
+		if (isset($this->request->post['indoship_minimum_belanja_tiki_sameday'])) {
+			$data['indoship_minimum_belanja_tiki_sameday'] = $this->request->post['indoship_minimum_belanja_tiki_sameday'];
+		} else {
+			$data['indoship_minimum_belanja_tiki_sameday'] = $this->config->get('indoship_minimum_belanja_tiki_sameday');
+		}
+
+		if (isset($this->request->post['indoship_minimum_belanja_tiki_holiday'])) {
+			$data['indoship_minimum_belanja_tiki_holiday'] = $this->request->post['indoship_minimum_belanja_tiki_holiday'];
+		} else {
+			$data['indoship_minimum_belanja_tiki_holiday'] = $this->config->get('indoship_minimum_belanja_tiki_holiday');
+		}
+
+		if (isset($this->request->post['indoship_minimum_belanja_pos_kilat'])) {
+			$data['indoship_minimum_belanja_pos_kilat'] = $this->request->post['indoship_minimum_belanja_pos_kilat'];
+		} else {
+			$data['indoship_minimum_belanja_pos_kilat'] = $this->config->get('indoship_minimum_belanja_pos_kilat');
+		}
+
+		if (isset($this->request->post['indoship_minimum_belanja_pos_sameday'])) {
+			$data['indoship_minimum_belanja_pos_sameday'] = $this->request->post['indoship_minimum_belanja_pos_sameday'];
+		} else {
+			$data['indoship_minimum_belanja_pos_sameday'] = $this->config->get('indoship_minimum_belanja_pos_sameday');
+		}
+
+		if (isset($this->request->post['indoship_minimum_belanja_pos_nextday'])) {
+			$data['indoship_minimum_belanja_pos_nextday'] = $this->request->post['indoship_minimum_belanja_pos_nextday'];
+		} else {
+			$data['indoship_minimum_belanja_pos_nextday'] = $this->config->get('indoship_minimum_belanja_pos_nextday');
+		}
+
+		
 
 		if (isset($this->request->post['indoship_sort_order'])) {
 			$data['indoship_sort_order'] = $this->request->post['indoship_sort_order'];

@@ -157,6 +157,72 @@
               </select>
             </div>
           </div>
+           <div class="form-group">
+            <label class="col-sm-2 control-label" for="key_api_input_field"><?php echo $entry_handling_fee; ?></label>
+            <div class="col-sm-10">
+              <input type="text" name="indoship_handling_fee" value="<?php echo $indoship_handling_fee;?>" class="form-control">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="key_api_input_field"><?php echo $entry_minimum_belanja_jne_oke; ?></label>
+            <div class="col-sm-10">
+              <input type="text" name="indoship_minimum_belanja_jne_oke" value="<?php echo $indoship_minimum_belanja_jne_oke;?>" class="form-control">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="key_api_input_field"><?php echo $entry_minimum_belanja_jne_yes; ?></label>
+            <div class="col-sm-10">
+              <input type="text" name="indoship_minimum_belanja_jne_yes" value="<?php echo $indoship_minimum_belanja_jne_yes;?>" class="form-control">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="key_api_input_field"><?php echo $entry_minimum_belanja_jne_trucking; ?></label>
+            <div class="col-sm-10">
+              <input type="text" name="indoship_minimum_belanja_jne_trucking" value="<?php echo $indoship_minimum_belanja_jne_trucking;?>" class="form-control">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="key_api_input_field"><?php echo $entry_minimum_belanja_tiki_regular; ?></label>
+            <div class="col-sm-10">
+              <input type="text" name="indoship_minimum_belanja_tiki_regular" value="<?php echo $indoship_minimum_belanja_tiki_regular;?>" class="form-control">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="key_api_input_field"><?php echo $entry_minimum_belanja_tiki_overnight; ?></label>
+            <div class="col-sm-10">
+              <input type="text" name="indoship_minimum_belanja_tiki_overnight" value="<?php echo $indoship_minimum_belanja_tiki_overnight;?>" class="form-control">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="key_api_input_field"><?php echo $entry_minimum_belanja_tiki_sameday; ?></label>
+            <div class="col-sm-10">
+              <input type="text" name="indoship_minimum_belanja_tiki_sameday" value="<?php echo $indoship_minimum_belanja_tiki_sameday;?>" class="form-control">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="key_api_input_field"><?php echo $entry_minimum_belanja_tiki_holiday; ?></label>
+            <div class="col-sm-10">
+              <input type="text" name="indoship_minimum_belanja_tiki_holiday" value="<?php echo $indoship_minimum_belanja_tiki_holiday;?>" class="form-control">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="key_api_input_field"><?php echo $entry_minimum_belanja_pos_kilat; ?></label>
+            <div class="col-sm-10">
+              <input type="text" name="indoship_minimum_belanja_pos_kilat" value="<?php echo $indoship_minimum_belanja_pos_kilat;?>" class="form-control">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="key_api_input_field"><?php echo $entry_minimum_belanja_pos_sameday; ?></label>
+            <div class="col-sm-10">
+              <input type="text" name="indoship_minimum_belanja_pos_sameday" value="<?php echo $indoship_minimum_belanja_pos_sameday;?>" class="form-control">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="key_api_input_field"><?php echo $entry_minimum_belanja_pos_nextday; ?></label>
+            <div class="col-sm-10">
+              <input type="text" name="indoship_minimum_belanja_pos_nextday" value="<?php echo $indoship_minimum_belanja_pos_nextday;?>" class="form-control">
+            </div>
+          </div>
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-status"><?php echo $entry_status; ?></label>
             <div class="col-sm-10">

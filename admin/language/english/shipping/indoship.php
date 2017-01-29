@@ -22,6 +22,17 @@ $_['entry_tampilan_destinasi'] = 'Show destination';
 $_['entry_origin'] = 'Masukan nama kota asal';
 $_['entry_key_api']    = 'Raja Ongkir Key API:';
 $_['entry_type_api']   = 'Type of API';
+$_['entry_handling_fee']   = 'Handling Fee';
+$_['entry_minimum_belanja_jne_oke']   = 'Minimum Belanja JNE OKE';
+$_['entry_minimum_belanja_jne_yes']   = 'Minimum Belanja JNE YES';
+$_['entry_minimum_belanja_jne_trucking']   = 'Minimum Belanja JNE Trucking';
+$_['entry_minimum_belanja_tiki_regular']   = 'Minimum Belanja TIKI Regular';
+$_['entry_minimum_belanja_tiki_overnight']   = 'Minimum Belanja TIKI Overnight';
+$_['entry_minimum_belanja_tiki_sameday']   = 'Minimum Belanja TIKI Same Day';
+$_['entry_minimum_belanja_tiki_holiday']   = 'Minimum Belanja TIKI Holiday';
+$_['entry_minimum_belanja_pos_kilat']   = 'Minimum Belanja POS Kilat';
+$_['entry_minimum_belanja_pos_sameday']   = 'Minimum Belanja POS Same Day';
+$_['entry_minimum_belanja_pos_nextday']   = 'Minimum Belanja POS Next Day';
 
 //help
 $_['help_tampilan_destinasi'] = 'Menampilkan destinasi kurir: <b>Semarang ke Tegal<b/>';
